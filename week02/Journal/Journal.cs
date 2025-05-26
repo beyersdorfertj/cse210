@@ -1,6 +1,5 @@
 class Journal {
-    private static Journal _journal;
-    private static string _filePath = "journal.json";
+    private static Journal _journal = null;
     public List<Entry> _entries;
 
     // Private constructor to make sure that the class cannot be created twice
@@ -11,12 +10,6 @@ class Journal {
     public static Journal GetJournal() {
         if (_journal == null) {
             _journal = new Journal();
-            if (File.Exists(_filePath)) {
-                _journal._entries = Serialize.Read<List<Entry>>(_filePath);
-            } else {
-                Console.WriteLine("File not found, creating new journal.");
-                _journal._entries = new List<Entry>();
-            }
         }
         return _journal;
     }
@@ -26,9 +19,8 @@ class Journal {
             Console.WriteLine("Prompt and response cannot be empty.");
             return;
         }
-        Entry entry = new Entry(DateTime.Now.ToString("dd/mm/yyyy"), prompt, response);
+        Entry entry = new Entry(DateTime.Now.ToString("MM'/'dd'/'yyyy"), prompt, response);
         _entries.Add(entry);
-        Serialize.Write(_entries, _filePath);
     }
 
     public void Display() {

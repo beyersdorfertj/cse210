@@ -15,10 +15,12 @@ class Program {
             if (journal.CountEntries() > 0) {
                 Console.WriteLine($"2. Display all journal entries ({journal.CountEntries()})");
             }
-            Console.WriteLine($"3. Display all prompts ({Prompt.CountEntries()})");
-            Console.WriteLine("4. Add a new prompt");
-            Console.WriteLine("5. Remove a prompt");
-            Console.WriteLine("6. Quit");
+            Console.WriteLine("3. Save journal entries");
+            Console.WriteLine("4. Load journal entries");
+            Console.WriteLine($"5. Display all prompts ({Prompt.CountEntries()})");
+            Console.WriteLine("6. Add a new prompt");
+            Console.WriteLine("7. Remove a prompt");
+            Console.WriteLine("8. Quit");
             Console.Write("What would you like do? ");
             choice = Console.ReadLine();
             switch (choice) {
@@ -39,14 +41,38 @@ class Program {
                     journal.Display();
                     break;
                 case "3":
-                    Prompt.Display();
+                    Console.Write("Please type your file name to save the journal entries (empty for cancel): ");
+                    string fileName = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(fileName)) {
+                        Console.WriteLine("Save cancelled.");
+                    } else {
+                        Serialize.Write(journal._entries, fileName);
+                        Console.WriteLine($"Journal entries saved to {fileName} successfully.");
+                    }
                     break;
                 case "4":
+                    Console.Write("Please type your file name to load the journal entries (empty for cancel): ");
+                    string loadFileName = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(loadFileName)) {
+                        Console.WriteLine("Load cancelled.");
+                    } else {
+                        if (File.Exists(loadFileName)) {
+                            journal._entries = Serialize.Read<List<Entry>>(loadFileName);
+                            Console.WriteLine($"Journal entries loaded from {loadFileName} successfully.");
+                        } else {
+                            Console.WriteLine($"File {loadFileName} does not exist.");
+                        }
+                    }
+                    break;
+                case "5":
+                    Prompt.Display();
+                    break;
+                case "6":
                     Console.Write("Please enter a new prompt: ");
                     string newPrompt = Console.ReadLine();
                     Prompt.Add(newPrompt);
                     break;
-                case "5":
+                case "7":
                     Prompt.Display();
                     Console.Write("Please enter the ID of the prompt you want to remove: ");
                     if (int.TryParse(Console.ReadLine(), out int promptId)) {
@@ -55,13 +81,13 @@ class Program {
                         Console.WriteLine("Invalid input. Please enter a valid ID.");
                     }
                     break;
-                case "6":
+                case "8":
                     break;
                 default:
                     Console.WriteLine("Invalid choice, please try again.");
                     break;
             }
-        } while (choice != "6");
+        } while (choice != "8");
         Console.Write("Thanks for working on your journal. ");
     }
 }
