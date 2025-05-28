@@ -17,7 +17,7 @@ class Scripture {
             numberToHide = unhiddenWords.Count; // Adjust if not enough words to hide
         }
         while (count < numberToHide) {
-            int index = new Random().Next(unhiddenWords.Count)
+            int index = new Random().Next(unhiddenWords.Count);
             unhiddenWords[index].Hide();
             count++;
         }
