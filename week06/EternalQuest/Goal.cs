@@ -1,10 +1,10 @@
 using System.Text.Json;
 
 abstract class Goal {
-    protected string _name;
-    protected string _description;
-    protected int _points;
-    protected bool _isCompleted = false;
+    private string _name;
+    private string _description;
+    private int _points;
+    private bool _isCompleted = false;
 
     public Goal(string name, string description, int points) {
         _name = name;
@@ -17,6 +17,18 @@ abstract class Goal {
         _description = json.GetProperty("description").GetString();
         _points = json.GetProperty("points").GetInt32();
         _isCompleted = json.GetProperty("isCompleted").GetBoolean();
+    }
+
+    protected string GetName() {
+        return _name;
+    }
+
+    protected string GetDescription() {
+        return _description;
+    }
+
+    protected int GetPoints() {
+        return _points;
     }
 
     public virtual string List() {
@@ -35,6 +47,10 @@ abstract class Goal {
 
     public bool IsCompleted() {
         return _isCompleted;
+    }
+
+    protected void SetCompleted(bool isCompleted) {
+        _isCompleted = isCompleted;
     }
 
     public abstract int RecordEvent();

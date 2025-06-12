@@ -14,7 +14,7 @@ class EternalGoal : Goal {
     public EternalGoal(JsonElement json) : base(json) {}
 
     public override int RecordEvent() {
-        Console.WriteLine($"Congratulations! You did {_name} and earned {_points} points.");
-        return _points;
+        Console.WriteLine($"Congratulations! You did {GetName()} and earned {GetPoints()} points.");
+        return GetPoints();
     }
 }

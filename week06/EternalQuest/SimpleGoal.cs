@@ -14,12 +14,12 @@ class SimpleGoal : Goal {
     }
 
     public override int RecordEvent() {
-        if (!_isCompleted) {
-            _isCompleted = true;
-            Console.WriteLine($"Congratulations! You've completed the goal: {_name} and earned {_points} points.");
-            return _points;
+        if (!IsCompleted()) {
+            SetCompleted(true);
+            Console.WriteLine($"Congratulations! You've completed the goal: {GetName()} and earned {GetPoints()} points.");
+            return GetPoints();
         } else {
-            Console.WriteLine($"Goal '{_name}' is already completed. No points awarded.");
+            Console.WriteLine($"Goal '{GetName()}' is already completed. No points awarded.");
             return 0;
         }
     }

@@ -48,21 +48,21 @@ class ChecklistGoal : Goal {
     private int _bonusPoints;
 
     public override int RecordEvent() {
-        if (_isCompleted) {
-            Console.WriteLine($"Goal '{_name}' is already completed. No points awarded.");
+        if (IsCompleted()) {
+            Console.WriteLine($"Goal '{GetName()}' is already completed. No points awarded.");
             return 0;
         }
         
         _timesCompleted++;
-        Console.WriteLine($"You accomplished the goal: {_name}. You have now completed it {_timesCompleted} times.");
-        
+        Console.WriteLine($"You accomplished the goal: {GetName()}. You have now completed it {_timesCompleted} times.");
+
         if (_timesCompleted >= _timesToComplete) {
-            _isCompleted = true;
-            Console.WriteLine($"Congratulations! You've completed the goal: {_name} and earned {_points + _bonusPoints} points (including bonus).");
-            return _points + _bonusPoints;
+            SetCompleted(true);
+            Console.WriteLine($"Congratulations! You've completed the goal: {GetName()} and earned {GetPoints() + _bonusPoints} points (including bonus).");
+            return GetPoints() + _bonusPoints;
         } else {
-            Console.WriteLine($"You earned {_points} points for this accomplishment.");
-            return _points;
+            Console.WriteLine($"You earned {GetPoints()} points for this accomplishment.");
+            return GetPoints();
         }
     }
 
